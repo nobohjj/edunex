@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduNex | Вход и регистрация</title>
+    <meta name="description" content="Влезте или създайте акаунт в EduNex. Регистрацията чрез Google и Microsoft е задължителна." />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="auth-page">
+    <div class="auth-shell">
+      <div class="auth-visual">
+        <div class="auth-visual-inner">
+          <div class="brand" aria-label="EduNex">
+            <span class="brand-mark">E</span>
+            <span>EduNex</span>
+          </div>
+
+          <div>
+            <h1>Дигитализацията на обучението, която държи всичко под контрол.</h1>
+            <ul class="auth-points">
+              <li>Автоматизиране на обучения и административни процеси</li>
+              <li>Прозрачни анализи и контрол на ефективността</li>
+              <li>По-добра продуктивност на персонала и екипите</li>
+            </ul>
+          </div>
+
+          <div class="mini-analytics" aria-label="Ключови показатели">
+            <div class="row">
+              <div>
+                <span>Достъп</span>
+              </div>
+              <strong>24/7</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2 class="auth-heading">Акаунт</h2>
+          <div class="auth-tabs" role="tablist" aria-label="Вход или регистрация">
+            <button class="tab-button active" type="button" data-tab="login">Вход</button>
+            <button class="tab-button" type="button" data-tab="register">Регистрация</button>
+          </div>
+        </div>
+
+        <form class="auth-form active" id="login-form" novalidate>
+          <div class="form-grid">
+            <div class="input-wrap">
+              <label for="login-email">Имейл</label>
+              <input id="login-email" type="email" placeholder="name@company.com" />
+            </div>
+
+            <div class="input-wrap">
+              <label for="login-password">Парола</label>
+              <input id="login-password" type="password" placeholder="••••••••" />
+            </div>
+          </div>
+
+          <div class="auth-actions">
+            <button class="btn btn-primary" type="submit">Влез в акаунта</button>
+          </div>
+
+          <div class="divider"><span>или</span></div>
+
+          <div class="social-list">
+            <button class="social-button google" type="button">Google</button>
+            <button class="social-button microsoft" type="button">Microsoft</button>
+          </div>
+        </form>
+
+        <form class="auth-form" id="register-form" novalidate>
+          <div class="form-grid">
+            <div class="field-row">
+              <div class="input-wrap">
+                <label for="register-name">Име</label>
+                <input id="register-name" type="text" placeholder="Иван Петров" />
+              </div>
+
+              <div class="input-wrap">
+                <label for="register-role">Роля</label>
+                <input id="register-role" type="text" placeholder="HR или учител" />
+              </div>
+            </div>
+
+            <div class="input-wrap">
+              <label for="register-google-email">Google имейл</label>
+              <input id="register-google-email" type="email" placeholder="name@gmail.com" />
+            </div>
+
+            <div class="input-wrap">
+              <label for="register-microsoft-email">Microsoft имейл</label>
+              <input id="register-microsoft-email" type="email" placeholder="name@outlook.com" />
+            </div>
+
+            <div class="helper-text warning-text">
+              Ако използвате работен / училищен имейл е нужно потвърждение от администратор за работа с инструментите.
+            </div>
+
+            <div class="field-row">
+              <div class="input-wrap">
+                <label for="register-password">Парола</label>
+                <input id="register-password" type="password" placeholder="••••••••" />
+              </div>
+
+              <div class="input-wrap">
+                <label for="register-password-confirm">Повтори парола</label>
+                <input id="register-password-confirm" type="password" placeholder="••••••••" />
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-actions">
+            <button class="btn btn-primary" type="submit">Създай акаунт</button>
+          </div>
+
+          <div class="divider"><span>или</span></div>
+
+          <div class="social-list">
+            <button class="social-button google" type="button">Продължи с Google</button>
+            <button class="social-button microsoft" type="button">Продължи с Microsoft</button>
+          </div>
+        </form>
+
+        <div class="auth-footer">
+          <span>Нямате профил? </span>
+          <a href="#" class="switch-link">Създайте нов</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tabs = document.querySelectorAll('.tab-button');
+      const forms = document.querySelectorAll('.auth-form');
+      const switchLink = document.querySelector('.switch-link');
+
+      function activateTab(name) {
+        tabs.forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.tab === name);
+        });
+
+        forms.forEach((form) => {
+          form.classList.toggle('active', form.id === `${name}-form`);
+        });
+      }
+
+      tabs.forEach((button) => {
+        button.addEventListener('click', () => activateTab(button.dataset.tab));
+      });
+
+      switchLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        activateTab('register');
+      });
+
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'register') {
+        activateTab('register');
+      }
+    </script>
+  </body>
+</html>
