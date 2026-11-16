@@ -11,11 +11,6 @@
     <div class="auth-shell">
       <div class="auth-visual">
         <div class="auth-visual-inner">
-          <div class="brand" aria-label="EduNex">
-            <span class="brand-mark">E</span>
-            <span>EduNex</span>
-          </div>
-
           <div>
             <h1>Дигитализацията на обучението, която държи всичко под контрол.</h1>
             <ul class="auth-points">
@@ -45,53 +40,31 @@
           </div>
         </div>
 
-        <form class="auth-form active" id="login-form" novalidate>
-          <div class="form-grid">
-            <div class="input-wrap">
-              <label for="login-email">Имейл</label>
-              <input id="login-email" type="email" placeholder="name@company.com" />
-            </div>
-
-            <div class="input-wrap">
-              <label for="login-password">Парола</label>
-              <input id="login-password" type="password" placeholder="••••••••" />
-            </div>
-          </div>
-
-          <div class="auth-actions">
-            <button class="btn btn-primary" type="submit">Влез в акаунта</button>
-          </div>
-
-          <div class="divider"><span>или</span></div>
-
+        <div class="auth-form active" id="login-form">
+          <div class="helper-text">Изберете доставчик, за да влезете с проверена самоличност.</div>
           <div class="social-list">
-            <button class="social-button google" type="button">Google</button>
-            <button class="social-button microsoft" type="button">Microsoft</button>
+            <button class="social-button google" type="button" data-provider="google">Google</button>
+            <button class="social-button microsoft" type="button" data-provider="microsoft">Microsoft</button>
           </div>
-        </form>
+        </div>
 
         <form class="auth-form" id="register-form" novalidate>
           <div class="form-grid">
             <div class="field-row">
               <div class="input-wrap">
                 <label for="register-name">Име</label>
-                <input id="register-name" type="text" placeholder="Иван Петров" />
+                <input id="register-name" name="register-name" type="text" placeholder="Иван Петров" />
               </div>
 
               <div class="input-wrap">
                 <label for="register-role">Роля</label>
-                <input id="register-role" type="text" placeholder="HR или учител" />
+                <input id="register-role" name="register-role" type="text" placeholder="HR или учител" />
               </div>
             </div>
 
             <div class="input-wrap">
-              <label for="register-google-email">Google имейл</label>
-              <input id="register-google-email" type="email" placeholder="name@gmail.com" />
-            </div>
-
-            <div class="input-wrap">
-              <label for="register-microsoft-email">Microsoft имейл</label>
-              <input id="register-microsoft-email" type="email" placeholder="name@outlook.com" />
+              <label for="register-email">Удостоверен имейл</label>
+              <input id="register-email" name="register-email" type="email" placeholder="Ще бъде проверен чрез доставчика" />
             </div>
 
             <div class="helper-text warning-text">
@@ -101,12 +74,12 @@
             <div class="field-row">
               <div class="input-wrap">
                 <label for="register-password">Парола</label>
-                <input id="register-password" type="password" placeholder="••••••••" />
+                <input id="register-password" name="register-password" type="password" placeholder="••••••••" />
               </div>
 
               <div class="input-wrap">
                 <label for="register-password-confirm">Повтори парола</label>
-                <input id="register-password-confirm" type="password" placeholder="••••••••" />
+                <input id="register-password-confirm" name="register-password-confirm" type="password" placeholder="••••••••" />
               </div>
             </div>
           </div>
@@ -118,8 +91,8 @@
           <div class="divider"><span>или</span></div>
 
           <div class="social-list">
-            <button class="social-button google" type="button">Продължи с Google</button>
-            <button class="social-button microsoft" type="button">Продължи с Microsoft</button>
+            <button class="social-button google" type="button" data-provider="google">Продължи с Google</button>
+            <button class="social-button microsoft" type="button" data-provider="microsoft">Продължи с Microsoft</button>
           </div>
         </form>
 
@@ -130,34 +103,6 @@
       </div>
     </div>
 
-    <script>
-      const tabs = document.querySelectorAll('.tab-button');
-      const forms = document.querySelectorAll('.auth-form');
-      const switchLink = document.querySelector('.switch-link');
-
-      function activateTab(name) {
-        tabs.forEach((tab) => {
-          tab.classList.toggle('active', tab.dataset.tab === name);
-        });
-
-        forms.forEach((form) => {
-          form.classList.toggle('active', form.id === `${name}-form`);
-        });
-      }
-
-      tabs.forEach((button) => {
-        button.addEventListener('click', () => activateTab(button.dataset.tab));
-      });
-
-      switchLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        activateTab('register');
-      });
-
-      const hash = window.location.hash.replace('#', '');
-      if (hash === 'register') {
-        activateTab('register');
-      }
-    </script>
+    <script src="auth.js"></script>
   </body>
 </html>
