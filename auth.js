@@ -24,37 +24,55 @@ switchLink.addEventListener('click', (event) => {
 document.querySelectorAll('[data-provider]').forEach((button) => {
   button.addEventListener('click', () => {
     const mode = document.querySelector('.tab-button.active')?.dataset.tab || 'login';
-    window.location.assign(`/auth/${button.dataset.provider}?mode=${mode}`);
+    activateTab('login');
   });
 });
 
 document.querySelector('#register-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = new FormData(event.currentTarget);
-  await submitAuth('/api/auth/register', {
+  await submitAuth(
+  'https://edunex-api.drilskib.workers.dev/api/auth/register',
+  {
     name: form.get('register-name'),
     role: form.get('register-role'),
-    email: form.get('register-email'),
+
+    googleEmail: form.get('register-google-email'),
+    microsoftEmail: form.get('register-microsoft-email'),
+
     password: form.get('register-password'),
     passwordConfirmation: form.get('register-password-confirm')
-  });
+  }
+);
 });
 
 async function submitAuth(endpoint, body) {
   try {
     const response = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(body)
     });
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.error || 'Удостоверяването не бе успешно.');
+
+    const contentType = response.headers.get('content-type');
+
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error(
+        'Регистрацията не е налична в GitHub Pages. Необходим е сървър.'
+      );
     }
-    window.location.assign('/success.html?type=register');
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Грешка при регистрация.');
+    }
+
+    window.location.assign('success.html?type=register');
   } catch (error) {
-    window.alert(error.message);
+    alert(error.message);
   }
 }
 
