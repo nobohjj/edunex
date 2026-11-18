@@ -115,9 +115,12 @@ document
         throw new Error(result.error || 'Грешка при вход.');
       }
 
-      alert(`Добре дошли, ${result.user.name}`);
+      localStorage.setItem(
+        'edunexUser',
+        JSON.stringify(result.user)
+);
 
-      window.location.href = 'success.html?type=login';
+window.location.href = 'success.html?type=login';
 
     } catch (error) {
 
