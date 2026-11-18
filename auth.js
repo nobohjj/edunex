@@ -92,8 +92,42 @@ document
 
     event.preventDefault();
 
-    console.log('LOGIN BUTTON CLICKED');
+    try {
 
-    alert('Login form works');
+      const response = await fetch(
+        'https://edunex-api.drilskib.workers.dev/api/auth/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+
+          body: JSON.stringify({
+            googleEmail: document.getElementById('login-google-email').value,
+            microsoftEmail: document.getElementById('login-microsoft-email').value,
+            password: document.getElementById('login-password').value
+          })
+        }
+      );
+
+      console.log('STATUS:', response.status);
+
+      const result = await response.json();
+
+      console.log('RESULT:', result);
+
+      if (!response.ok) {
+        throw new Error(result.error);
+      }
+
+      alert(`Добре дошли, ${result.user.name}`);
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(error.message);
+
+    }
 
   });
