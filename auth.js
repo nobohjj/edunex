@@ -101,7 +101,6 @@ document
           headers: {
             'Content-Type': 'application/json'
           },
-
           body: JSON.stringify({
             googleEmail: document.getElementById('login-google-email').value,
             microsoftEmail: document.getElementById('login-microsoft-email').value,
@@ -110,21 +109,17 @@ document
         }
       );
 
-      console.log('STATUS:', response.status);
-
       const result = await response.json();
 
-      console.log('RESULT:', result);
-
       if (!response.ok) {
-        throw new Error(result.error);
+        throw new Error(result.error || 'Грешка при вход.');
       }
 
       alert(`Добре дошли, ${result.user.name}`);
 
-    } catch (error) {
+      window.location.href = 'success.html?type=login';
 
-      console.error(error);
+    } catch (error) {
 
       alert(error.message);
 
