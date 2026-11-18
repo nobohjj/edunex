@@ -40,13 +40,55 @@
           </div>
         </div>
 
-        <div class="auth-form active" id="login-form">
-          <div class="helper-text">Изберете доставчик, за да влезете с проверена самоличност.</div>
-          <div class="social-list">
-            <button class="social-button google" type="button" data-provider="google">Google</button>
-            <button class="social-button microsoft" type="button" data-provider="microsoft">Microsoft</button>
+        <form class="auth-form active" id="login-form">
+
+          <div class="form-grid">
+
+            <div class="input-wrap">
+              <label for="login-google-email">
+                Google имейл
+              </label>
+
+              <input
+                id="login-google-email"
+                type="email"
+                placeholder="example@gmail.com"
+              />
+            </div>
+
+            <div class="input-wrap">
+              <label for="login-microsoft-email">
+                Microsoft имейл
+              </label>
+
+              <input
+                id="login-microsoft-email"
+                type="email"
+                placeholder="example@outlook.com"
+              />
+            </div>
+
+            <div class="input-wrap">
+              <label for="login-password">
+                Парола
+              </label>
+
+              <input
+                id="login-password"
+                type="password"
+                placeholder="••••••••"
+              />
+            </div>
+
           </div>
-        </div>
+
+          <div class="auth-actions">
+            <button class="btn btn-primary" type="submit">
+              Вход
+            </button>
+          </div>
+
+        </form>
 
         <form class="auth-form" id="register-form" novalidate>
           <div class="form-grid">
