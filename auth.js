@@ -85,3 +85,15 @@ const oauthError = new URLSearchParams(window.location.search).get('error');
 if (oauthError) {
   window.alert(`OAuth удостоверяването не бе успешно: ${oauthError}`);
 }
+
+document
+  .querySelector('#login-form')
+  .addEventListener('submit', async (event) => {
+
+    event.preventDefault();
+
+    console.log('LOGIN BUTTON CLICKED');
+
+    alert('Login form works');
+
+  });
