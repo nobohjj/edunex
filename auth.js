@@ -73,7 +73,7 @@ async function submitAuth(endpoint, body) {
       throw new Error(result.error || "Грешка при регистрация.");
     }
 
-    window.location.assign("success.html?type=register");
+    window.location.assign("dashboard.html");
   } catch (error) {
     alert(error.message);
   }
@@ -119,7 +119,7 @@ document
 
       localStorage.setItem("edunexUser", JSON.stringify(result.user));
 
-      window.location.href = "dashboard.html?type=login";
+      window.location.href = "dashboard.html";
     } catch (error) {
       alert(error.message);
     }
