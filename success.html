@@ -11,6 +11,9 @@
       const type = new URLSearchParams(window.location.search).get('type');
       document.getElementById('message').textContent =
         type === 'login' ? 'Успешно влизане.' : 'Успешно създаване на акаунт.';
+      if (type === 'login' || type === 'register') {
+        window.location.replace('dashboard.html');
+      }
     </script>
   </body>
 </html>

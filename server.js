@@ -10,7 +10,9 @@ const usersFile = join(dataDirectory, 'users.json');
 const sessions = new Map();
 const oauthStates = new Map();
 const users = new Map();
+const difyConversations = new Map();
 
+await loadEnv();
 await loadUsers();
 
 const port = Number(process.env.PORT || 3000);
@@ -43,6 +45,11 @@ const server = createServer(async (request, response) => {
 
     if (request.method === 'GET' && requestUrl.pathname === '/api/auth/session') {
       sendJson(response, 200, { authenticated: Boolean(getSession(request)) });
+      return;
+    }
+
+    if (request.method === 'POST' && requestUrl.pathname === '/api/dify/chat') {
+      await chatWithDify(request, response);
       return;
     }
 
@@ -155,6 +162,67 @@ async function finishOAuth(request, response, provider, requestUrl) {
     Location: state.mode === 'register' ? '/auth.html#register' : '/success.html?type=login'
   });
   response.end();
+}
+
+async function chatWithDify(request, response) {
+  const apiKey = process.env.DIFY_API_KEY;
+  if (!apiKey) {
+    sendJson(response, 503, { error: 'Dify API ключът не е конфигуриран.' });
+    return;
+  }
+
+  let body;
+  try {
+    body = await readJson(request);
+  } catch {
+    sendJson(response, 400, { error: 'Невалидно съобщение.' });
+    return;
+  }
+
+  const message = typeof body.message === 'string' ? body.message.trim() : '';
+  if (!message) {
+    sendJson(response, 400, { error: 'Въведете съобщение.' });
+    return;
+  }
+
+  const sessionId = parseCookies(request.headers.cookie || '').edunex_session || request.socket.remoteAddress || 'edunex-dashboard';
+  const conversationId = difyConversations.get(sessionId) || '';
+  const apiUrl = (process.env.DIFY_API_URL || 'https://api.dify.ai/v1').replace(/\/$/, '');
+
+  try {
+    const difyResponse = await fetch(`${apiUrl}/chat-messages`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        inputs: {},
+        query: message,
+        response_mode: 'blocking',
+        conversation_id: conversationId,
+        user: 'edunex-dashboard'
+      })
+    });
+
+    const result = await difyResponse.json();
+    if (!difyResponse.ok) {
+      sendJson(response, difyResponse.status, { error: result.message || 'Dify не успя да обработи съобщението.' });
+      return;
+    }
+
+    if (result.conversation_id) {
+      difyConversations.set(sessionId, result.conversation_id);
+    }
+
+    sendJson(response, 200, {
+      answer: typeof result.answer === 'string' ? result.answer : '',
+      conversationId: result.conversation_id || conversationId
+    });
+  } catch (error) {
+    console.error(error);
+    sendJson(response, 502, { error: 'Неуспешна връзка с Dify.' });
+  }
 }
 
 async function register(request, response) {
@@ -331,6 +399,21 @@ function scryptAsync(password, salt, length) {
   return new Promise((resolve, reject) => {
     scrypt(password, salt, length, (error, key) => (error ? reject(error) : resolve(key)));
   });
+}
+
+async function loadEnv() {
+  try {
+    const env = await readFile(join(root, '.env'), 'utf8');
+    env.split(/\r?\n/).forEach((line) => {
+      const match = line.match(/^([^#=]+)=([\s\S]*)$/);
+      if (!match) return;
+      const name = match[1].trim();
+      const value = match[2].trim().replace(/^(['"])(.*)\1$/, '$2');
+      if (!(name in process.env)) process.env[name] = value;
+    });
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
 }
 
 async function loadUsers() {
