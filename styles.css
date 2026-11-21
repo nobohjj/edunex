@@ -771,14 +771,23 @@ footer {
 }
 
 .dashboard-nav-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+
+  padding: 14px 16px;
+
   border-radius: 10px;
+
   color: #66717d;
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .dashboard-nav-item:hover,
@@ -786,14 +795,6 @@ footer {
   background: #eff8f5;
   color: #18252b;
 }
-
-.nav-icon {
-  width: 18px;
-  flex: 0 0 18px;
-  color: #3ca58d;
-  text-align: center;
-}
-
 .dashboard-signout {
   margin-top: auto;
   padding: 12px;

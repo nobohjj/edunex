@@ -13,90 +13,158 @@
         <a class="dashboard-brand" href="dashboard.html" aria-label="EduNex Dashboard">
           <span>EduNex</span>
         </a>
-
         <nav class="dashboard-nav">
-          <a class="dashboard-nav-item active" href="#ai-agent">
-            <span class="nav-icon" aria-hidden="true">✦</span>
-            <span>Автоматизация с изкуствен интелект</span>
-          </a>
-          <a class="dashboard-nav-item" href="#workspace-center">
-            <span class="nav-icon" aria-hidden="true">▦</span>
-            <span>Центърът на вашето работно пространство</span>
-          </a>
-        </nav>
 
+        <button class="dashboard-nav-item active"
+                data-section="home"
+                type="button">
+            Начало
+        </button>
+
+        <button class="dashboard-nav-item"
+                data-section="ai"
+                type="button">
+            AI Асистент
+        </button>
+
+        <button class="dashboard-nav-item"
+                data-section="workspace"
+                type="button">
+            Работно пространство
+        </button>
+
+        <button class="dashboard-nav-item"
+                data-section="settings"
+                type="button">
+            Настройки
+        </button>
+
+        </nav>
         <a class="dashboard-signout" href="auth.html#login">Изход</a>
       </aside>
 
       <main class="dashboard-main">
         <header class="dashboard-header">
           <div>
-            <span class="dashboard-eyebrow">Работно пространство</span>
-            <h1>EduNex AI - помощникът в реализиране на успешна работна среда</h1>
+            <h1>Добре дошли в EduNex</h1>
           </div>
         </header>
 
-        <section class="dashboard-section" id="ai-agent" aria-labelledby="ai-agent-title">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">AI агент</span>
-              <h2 id="ai-agent-title">Автоматизация с изкуствен интелект</h2>
+        <section id="home-section" class="dashboard-section">
+
+            <div class="section-heading">
+                <div>
+                <h2>Начало</h2>
+                </div>
             </div>
-          </div>
-          <div class="agent-chat" id="dify-agent">
-            <div class="agent-chat-messages" id="dify-messages" aria-live="polite">
-              <div class="agent-message assistant-message">Как мога да ви помогна?</div>
+
+            <p>Добре дошли в EduNex.</p>
+
+            </section>
+
+            <section id="ai-section"
+                    class="dashboard-section"
+                    hidden>
+
+            <div class="section-heading">
+                <div>
+                <h2>AI Асистент</h2>
+                </div>
             </div>
-            <form class="agent-chat-form" id="dify-form">
-              <label class="sr-only" for="dify-input">Съобщение до AI агента</label>
-              <input id="dify-input" name="message" type="text" placeholder="Напишете съобщение" autocomplete="off" />
-              <button type="submit">Изпрати</button>
-            </form>
-          </div>
+
+            <div class="agent-chat">
+
+                <div class="agent-chat-messages"
+                    id="dify-messages">
+
+                <div class="agent-message assistant-message">
+                    Как мога да Ви помогна?
+                </div>
+
+                </div>
+
+                <form class="agent-chat-form"
+                    id="dify-form">
+
+                <input
+                    id="dify-input"
+                    type="text"
+                    placeholder="Напишете съобщение"
+                    autocomplete="off">
+
+                <button type="submit">
+                    Изпрати
+                </button>
+
+                </form>
+
+            </div>
+
         </section>
 
-        <section class="dashboard-section workspace-section" id="workspace-center" aria-labelledby="workspace-title">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">Интеграции</span>
-              <h2 id="workspace-title">Центърът на вашето работно пространство</h2>
-            </div>
-          </div>
+        <section id="workspace-section"
+                    class="dashboard-section"
+                    hidden>
 
-          <div class="workspace-layout">
-            <div class="app-list" aria-label="Работни приложения">
-              <div class="app-group">
-                <h3>Microsoft екосистема</h3>
-                <button class="app-item active" type="button" data-app="teams">Microsoft Teams</button>
-                <button class="app-item" type="button" data-app="todo">Microsoft To Do</button>
-                <button class="app-item" type="button" data-app="sharepoint">SharePoint</button>
-                <button class="app-item" type="button" data-app="onedrive">Microsoft OneDrive</button>
-                <button class="app-item" type="button" data-app="excel">Excel 365</button>
-                <button class="app-item" type="button" data-app="outlook">Outlook</button>
-              </div>
-              <div class="app-group">
-                <h3>Google екосистема</h3>
-                <button class="app-item" type="button" data-app="docs">Google Docs</button>
-                <button class="app-item" type="button" data-app="sheets">Google Sheets</button>
-                <button class="app-item" type="button" data-app="calendar">Google Calendar</button>
-                <button class="app-item" type="button" data-app="drive">Google Drive</button>
-              </div>
+            <div class="section-heading">
+                <div>
+                <h2>Работно пространство</h2>
+                </div>
             </div>
 
-            <div class="workspace-frame-wrap">
-              <div class="workspace-frame-header">
-                <span id="workspace-app-name">Microsoft Teams</span>
-                <span class="workspace-status">Вградено работно пространство</span>
-              </div>
-              <iframe id="workspace-frame" title="Вградено работно приложение" src="https://teams.microsoft.com/"></iframe>
-              <p class="integration-notice" id="workspace-notice">
-                Приложението се зарежда във вътрешното работно пространство, ако доставчикът разрешава вграждане.
-              </p>
+            <div class="workspace-cards">
+
+                <div class="workspace-card">
+                <h3>Последни документи</h3>
+
+                <ul>
+                    <li>Няма налични документи</li>
+                </ul>
+                </div>
+
+                <div class="workspace-card">
+                <h3>Моите задачи</h3>
+
+                <ul>
+                    <li>Няма налични задачи</li>
+                </ul>
+                </div>
+
+                <div class="workspace-card">
+                <h3>Предстоящи събития</h3>
+
+                <ul>
+                    <li>Няма предстоящи събития</li>
+                </ul>
+                </div>
+
+                <div class="workspace-card">
+                <h3>Препоръки от EduNex AI</h3>
+
+                </div>
+
             </div>
-          </div>
-        </section>
+
+            </section>
+
+    </section>
+
+            <section id="settings-section"
+                    class="dashboard-section"
+                    hidden>
+
+            <div class="section-heading">
+                <div>
+                <h2>Настройки</h2>
+                </div>
+            </div>
+
+            <p>Настройките ще бъдат добавени в следваща версия.</p>
+
+            </section>
       </main>
     </div>
+
 
     <script src="dashboard.js"></script>
   </body>
