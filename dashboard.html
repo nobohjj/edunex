@@ -1,171 +1,245 @@
 <!DOCTYPE html>
 <html lang="bg">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EduNex | Dashboard</title>
-    <meta name="description" content="Централизирано работно пространство на EduNex." />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body class="dashboard-page">
-    <div class="dashboard-shell">
-      <aside class="dashboard-sidebar" aria-label="Странична навигация">
-        <a class="dashboard-brand" href="dashboard.html" aria-label="EduNex Dashboard">
-          <span>EduNex</span>
-        </a>
-        <nav class="dashboard-nav">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduNex | Dashboard</title>
+  <meta name="description" content="Работно пространство на EduNex">
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-        <button class="dashboard-nav-item active"
-                data-section="home"
-                type="button">
-            Начало
+<body class="dashboard-page">
+
+<div class="dashboard-shell">
+
+  <aside class="dashboard-sidebar">
+
+    <a class="dashboard-brand" href="dashboard.html">
+      <span>EduNex</span>
+    </a>
+
+    <nav class="dashboard-nav">
+
+      <button
+        class="dashboard-nav-item active"
+        data-section="home"
+        type="button">
+        Начало
+      </button>
+
+      <button
+        class="dashboard-nav-item"
+        data-section="ai"
+        type="button">
+        AI Асистент
+      </button>
+
+      <button
+        class="dashboard-nav-item"
+        id="workspace-toggle"
+        type="button">
+
+        <span>Работно пространство</span>
+        <span id="workspace-arrow">▶</span>
+
+      </button>
+
+      <div id="workspace-submenu" hidden>
+
+        <button
+          class="dashboard-nav-item sub-item"
+          data-section="documents"
+          type="button">
+          Документи
         </button>
 
-        <button class="dashboard-nav-item"
-                data-section="ai"
-                type="button">
-            AI Асистент
+        <button
+          class="dashboard-nav-item sub-item"
+          data-section="tasks"
+          type="button">
+          Задачи
         </button>
 
-        <button class="dashboard-nav-item"
-                data-section="workspace"
-                type="button">
-            Работно пространство
+        <button
+          class="dashboard-nav-item sub-item"
+          data-section="calendar"
+          type="button">
+          Календар
         </button>
 
-        <button class="dashboard-nav-item"
-                data-section="settings"
-                type="button">
-            Настройки
+        <button
+          class="dashboard-nav-item sub-item"
+          data-section="communication"
+          type="button">
+          Комуникация
         </button>
 
-        </nav>
-        <a class="dashboard-signout" href="auth.html#login">Изход</a>
-      </aside>
+        <button
+          class="dashboard-nav-item sub-item"
+          data-section="files"
+          type="button">
+          Файлове
+        </button>
 
-      <main class="dashboard-main">
-        <header class="dashboard-header">
-          <div>
-            <h1>Добре дошли в EduNex</h1>
-          </div>
-        </header>
+      </div>
 
-        <section id="home-section" class="dashboard-section">
+      <button
+        class="dashboard-nav-item"
+        data-section="settings"
+        type="button">
+        Настройки
+      </button>
 
-            <div class="section-heading">
-                <div>
-                <h2>Начало</h2>
-                </div>
-            </div>
+    </nav>
 
-            <p>Добре дошли в EduNex.</p>
+    <a class="dashboard-signout" href="auth.html#login">
+      Изход
+    </a>
 
-            </section>
+  </aside>
 
-            <section id="ai-section"
-                    class="dashboard-section"
-                    hidden>
+  <main class="dashboard-main">
 
-            <div class="section-heading">
-                <div>
-                <h2>AI Асистент</h2>
-                </div>
-            </div>
+    <header class="dashboard-header">
+      <h1>Добре дошли в EduNex</h1>
+    </header>
 
-            <div class="agent-chat">
+    <section
+      id="home-section"
+      class="dashboard-section">
 
-                <div class="agent-chat-messages"
-                    id="dify-messages">
+      <div class="section-heading">
+        <h2>Начало</h2>
+      </div>
 
-                <div class="agent-message assistant-message">
-                    Как мога да Ви помогна?
-                </div>
-
-                </div>
-
-                <form class="agent-chat-form"
-                    id="dify-form">
-
-                <input
-                    id="dify-input"
-                    type="text"
-                    placeholder="Напишете съобщение"
-                    autocomplete="off">
-
-                <button type="submit">
-                    Изпрати
-                </button>
-
-                </form>
-
-            </div>
-
-        </section>
-
-        <section id="workspace-section"
-                    class="dashboard-section"
-                    hidden>
-
-            <div class="section-heading">
-                <div>
-                <h2>Работно пространство</h2>
-                </div>
-            </div>
-
-            <div class="workspace-cards">
-
-                <div class="workspace-card">
-                <h3>Последни документи</h3>
-
-                <ul>
-                    <li>Няма налични документи</li>
-                </ul>
-                </div>
-
-                <div class="workspace-card">
-                <h3>Моите задачи</h3>
-
-                <ul>
-                    <li>Няма налични задачи</li>
-                </ul>
-                </div>
-
-                <div class="workspace-card">
-                <h3>Предстоящи събития</h3>
-
-                <ul>
-                    <li>Няма предстоящи събития</li>
-                </ul>
-                </div>
-
-                <div class="workspace-card">
-                <h3>Препоръки от EduNex AI</h3>
-
-                </div>
-
-            </div>
-
-            </section>
+      <p>Добре дошли в EduNex.</p>
 
     </section>
 
-            <section id="settings-section"
-                    class="dashboard-section"
-                    hidden>
+    <section
+      id="ai-section"
+      class="dashboard-section"
+      hidden>
 
-            <div class="section-heading">
-                <div>
-                <h2>Настройки</h2>
-                </div>
-            </div>
+      <div class="section-heading">
+        <h2>AI Асистент</h2>
+      </div>
 
-            <p>Настройките ще бъдат добавени в следваща версия.</p>
+      <div class="agent-chat">
 
-            </section>
-      </main>
-    </div>
+        <div
+          class="agent-chat-messages"
+          id="dify-messages">
 
+          <div class="agent-message assistant-message">
+            Как мога да Ви помогна?
+          </div>
 
-    <script src="dashboard.js"></script>
-  </body>
+        </div>
+
+        <form
+          class="agent-chat-form"
+          id="dify-form">
+
+          <input
+            id="dify-input"
+            type="text"
+            placeholder="Напишете съобщение"
+            autocomplete="off">
+
+          <button type="submit">
+            Изпрати
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+    <section
+      id="documents-section"
+      class="dashboard-section"
+      hidden>
+
+      <div class="section-heading">
+        <h2>Документи</h2>
+      </div>
+
+      <p>Последни документи ще се показват тук.</p>
+
+    </section>
+
+    <section
+      id="tasks-section"
+      class="dashboard-section"
+      hidden>
+
+      <div class="section-heading">
+        <h2>Задачи</h2>
+      </div>
+
+      <p>Вашите задачи ще се показват тук.</p>
+
+    </section>
+
+    <section
+      id="calendar-section"
+      class="dashboard-section"
+      hidden>
+
+      <div class="section-heading">
+        <h2>Календар</h2>
+      </div>
+
+      <p>Предстоящите събития ще се показват тук.</p>
+
+    </section>
+
+    <section
+      id="communication-section"
+      class="dashboard-section"
+      hidden>
+
+      <div class="section-heading">
+        <h2>Комуникация</h2>
+      </div>
+
+      <p>Имейли и съобщения ще се показват тук.</p>
+
+    </section>
+
+    <section
+      id="files-section"
+      class="dashboard-section"
+      hidden>
+
+      <div class="section-heading">
+        <h2>Файлове</h2>
+      </div>
+
+      <p>Файловете ще се показват тук.</p>
+
+    </section>
+
+    <section
+      id="settings-section"
+      class="dashboard-section"
+      hidden>
+
+      <div class="section-heading">
+        <h2>Настройки</h2>
+      </div>
+
+      <p>Настройките ще бъдат добавени в следваща версия.</p>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script src="dashboard.js"></script>
+
+</body>
 </html>

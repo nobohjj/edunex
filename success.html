@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduNex | Успешно действие</title>
+  </head>
+  <body>
+    <p id="message"></p>
+    <script>
+      const type = new URLSearchParams(window.location.search).get('type');
+      document.getElementById('message').textContent =
+        type === 'login' ? 'Успешно влизане.' : 'Успешно създаване на акаунт.';
+      if (type === 'login' || type === 'register') {
+        window.location.replace('dashboard.html');
+      }
+    </script>
+  </body>
+</html>
