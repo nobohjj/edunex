@@ -1,131 +1,126 @@
-const tabs = document.querySelectorAll('.tab-button');
-const forms = document.querySelectorAll('.auth-form');
-const switchLink = document.querySelector('.switch-link');
+const tabs = document.querySelectorAll(".tab-button");
+const forms = document.querySelectorAll(".auth-form");
+const switchLink = document.querySelector(".switch-link");
 
 function activateTab(name) {
   tabs.forEach((tab) => {
-    tab.classList.toggle('active', tab.dataset.tab === name);
+    tab.classList.toggle("active", tab.dataset.tab === name);
   });
 
   forms.forEach((form) => {
-    form.classList.toggle('active', form.id === `${name}-form`);
+    form.classList.toggle("active", form.id === `${name}-form`);
   });
 }
 
 tabs.forEach((button) => {
-  button.addEventListener('click', () => activateTab(button.dataset.tab));
+  button.addEventListener("click", () => activateTab(button.dataset.tab));
 });
 
-switchLink.addEventListener('click', (event) => {
+switchLink.addEventListener("click", (event) => {
   event.preventDefault();
-  activateTab('register');
+  activateTab("register");
 });
 
-document.querySelectorAll('[data-provider]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const mode = document.querySelector('.tab-button.active')?.dataset.tab || 'login';
-    activateTab('login');
+document.querySelectorAll("[data-provider]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const mode =
+      document.querySelector(".tab-button.active")?.dataset.tab || "login";
+    activateTab("login");
   });
 });
 
-document.querySelector('#register-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const form = new FormData(event.currentTarget);
-  await submitAuth(
-  'https://edunex-api.drilskib.workers.dev/api/auth/register',
-  {
-    name: form.get('register-name'),
-    role: form.get('register-role'),
+document
+  .querySelector("#register-form")
+  .addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    await submitAuth(
+      "https://edunex-api.drilskib.workers.dev/api/auth/register",
+      {
+        name: form.get("register-name"),
+        role: form.get("register-role"),
 
-    googleEmail: form.get('register-google-email'),
-    microsoftEmail: form.get('register-microsoft-email'),
+        googleEmail: form.get("register-google-email"),
+        microsoftEmail: form.get("register-microsoft-email"),
 
-    password: form.get('register-password'),
-    passwordConfirmation: form.get('register-password-confirm')
-  }
-);
-});
+        password: form.get("register-password"),
+        passwordConfirmation: form.get("register-password-confirm"),
+      },
+    );
+  });
 
 async function submitAuth(endpoint, body) {
   try {
     const response = await fetch(endpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
 
-    const contentType = response.headers.get('content-type');
+    const contentType = response.headers.get("content-type");
 
-    if (!contentType || !contentType.includes('application/json')) {
+    if (!contentType || !contentType.includes("application/json")) {
       throw new Error(
-        'Регистрацията не е налична в GitHub Pages. Необходим е сървър.'
+        "Регистрацията не е налична в GitHub Pages. Необходим е сървър.",
       );
     }
 
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || 'Грешка при регистрация.');
+      throw new Error(result.error || "Грешка при регистрация.");
     }
 
-    window.location.assign('success.html?type=register');
+    window.location.assign("success.html?type=register");
   } catch (error) {
     alert(error.message);
   }
 }
 
-const hash = window.location.hash.replace('#', '');
-if (hash === 'register') {
-  activateTab('register');
+const hash = window.location.hash.replace("#", "");
+if (hash === "register") {
+  activateTab("register");
 }
 
-const oauthError = new URLSearchParams(window.location.search).get('error');
+const oauthError = new URLSearchParams(window.location.search).get("error");
 if (oauthError) {
   window.alert(`OAuth удостоверяването не бе успешно: ${oauthError}`);
 }
 
 document
-  .querySelector('#login-form')
-  .addEventListener('submit', async (event) => {
-
+  .querySelector("#login-form")
+  .addEventListener("submit", async (event) => {
     event.preventDefault();
 
     try {
-
       const response = await fetch(
-        'https://edunex-api.drilskib.workers.dev/api/auth/login',
+        "https://edunex-api.drilskib.workers.dev/api/auth/login",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            googleEmail: document.getElementById('login-google-email').value,
-            microsoftEmail: document.getElementById('login-microsoft-email').value,
-            password: document.getElementById('login-password').value
-          })
-        }
+            googleEmail: document.getElementById("login-google-email").value,
+            microsoftEmail: document.getElementById("login-microsoft-email")
+              .value,
+            password: document.getElementById("login-password").value,
+          }),
+        },
       );
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Грешка при вход.');
+        throw new Error(result.error || "Грешка при вход.");
       }
 
-      localStorage.setItem(
-        'edunexUser',
-        JSON.stringify(result.user)
-);
+      localStorage.setItem("edunexUser", JSON.stringify(result.user));
 
-window.location.href = 'success.html?type=login';
-
+      window.location.href = "dashboard.html?type=login";
     } catch (error) {
-
       alert(error.message);
-
     }
-
   });
