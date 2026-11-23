@@ -154,3 +154,52 @@ function addMessage(
     difyMessages.scrollHeight;
 
 }
+
+const createTaskBtn =
+  document.getElementById("create-task-btn");
+
+createTaskBtn?.addEventListener(
+  "click",
+  async () => {
+
+    const title = prompt(
+      "Въведете име на задачата:"
+    );
+
+    if (!title) {
+      return;
+    }
+
+    const response = await fetch(
+      "https://edunex-api.drilskib.workers.dev/api/tasks/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title
+        })
+      }
+    );
+
+    const result =
+      await response.json();
+
+    if (result.success) {
+
+      alert(
+        "Задачата е създадена."
+      );
+
+    } else {
+
+      alert(
+        result.error ||
+        "Грешка."
+      );
+
+    }
+
+  }
+);

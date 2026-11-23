@@ -102,19 +102,166 @@
 
     <header class="dashboard-header">
       <h1>Добре дошли в EduNex</h1>
+      <div class="dashboard-search">
+
+      <input
+        type="text"
+        placeholder="Търсене в документи, задачи, файлове и съобщения">
+
+      </div>
     </header>
+
+    <div class="dashboard-profile">
+
+    <div class="profile-avatar">
+      B
+    </div>
+
+    <div class="profile-info">
+      <strong>Борис Дрилски</strong>
+      <span>Администратор</span>
+    </div>
+
+    <button class="notification-button">
+
+      🔔
+
+      <span class="notification-badge">
+        4
+      </span>
+
+    </button>
+
+  </div>
 
     <section
       id="home-section"
       class="dashboard-section">
 
       <div class="section-heading">
-        <h2>Начало</h2>
+        <div>
+          <h2>Добре дошли в EduNex</h2>
+        </div>
       </div>
 
-      <p>Добре дошли в EduNex.</p>
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Документи</h3>
+          <h2>12</h2>
+
+          <p>
+            Активни документи
+          </p>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Задачи</h3>
+          <h2>7</h2>
+
+          <p>
+            Активни задачи
+          </p>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Събития</h3>
+          <h2>3</h2>
+
+          <p>
+            Предстоящи събития
+          </p>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Съобщения</h3>
+          <h2>4</h2>
+
+          <p>
+            Непрочетени съобщения
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="workspace-card">
+
+        <h3>Бързи действия</h3>
+
+        <button class="btn btn-primary">
+          Нов документ
+        </button>
+
+        <br><br>
+
+        <button class="btn btn-secondary">
+          Нова задача
+        </button>
+
+      </div>
+
+      <br>
+
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Последна активност</h3>
+
+          <ul>
+            <li>Редактиран график на учители</li>
+            <li>Добавена нова задача</li>
+            <li>Създаден нов документ</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Предстоящи събития</h3>
+
+          <ul>
+            <li>Педагогически съвет</li>
+            <li>Родителска среща</li>
+            <li>STEM презентация</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Препоръки от EduNex AI</h3>
+
+          <ul>
+            <li>Имате 2 задачи с наближаващ срок.</li>
+            <li>Имате 4 непрочетени съобщения.</li>
+            <li>Не сте отваряли 5 файла от над 30 дни.</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Бързи действия</h3>
+
+          <button class="btn btn-primary">
+            Нов документ
+          </button>
+
+        </div>
+
+      </div>
 
     </section>
+
 
     <section
       id="ai-section"
@@ -163,10 +310,54 @@
       hidden>
 
       <div class="section-heading">
-        <h2>Документи</h2>
+        <div>
+          <h2>Документи</h2>
+        </div>
       </div>
 
-      <p>Последни документи ще се показват тук.</p>
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Бързи действия</h3>
+
+          <button class="btn btn-primary">
+            Нов документ
+          </button>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Последни документи</h3>
+
+          <ul>
+            <li>План за STEM център</li>
+            <li>График на учителите</li>
+            <li>Бюджет 2027</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Последна активност</h3>
+
+          <p>Последен преглед преди 2 часа.</p>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Предложения от EduNex AI</h3>
+
+          <p>
+            Имате 3 документа без редакция през последните 30 дни.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
@@ -176,10 +367,59 @@
       hidden>
 
       <div class="section-heading">
-        <h2>Задачи</h2>
+        <div>
+          <h2>Задачи</h2>
+        </div>
       </div>
 
-      <p>Вашите задачи ще се показват тук.</p>
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Бързи действия</h3>
+
+          <button
+            class="btn btn-primary"
+            id="create-task-btn">
+            Нова задача
+          </button>
+
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Моите задачи</h3>
+
+          <ul>
+            <li>Подготви педагогически съвет</li>
+            <li>Изготви график за учители</li>
+            <li>Провери STEM документация</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Спешни задачи</h3>
+
+          <ul>
+            <li>Изпрати покани за среща</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Препоръки от EduNex AI</h3>
+
+          <p>
+            Имате 2 задачи с наближаващ срок.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
@@ -189,10 +429,57 @@
       hidden>
 
       <div class="section-heading">
-        <h2>Календар</h2>
+        <div>
+          <h2>Календар</h2>
+        </div>
       </div>
 
-      <p>Предстоящите събития ще се показват тук.</p>
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Днес</h3>
+
+          <ul>
+            <li>15:00 - Педагогически съвет</li>
+            <li>17:00 - Среща с родители</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Тази седмица</h3>
+
+          <ul>
+            <li>Родителска среща</li>
+            <li>STEM презентация</li>
+            <li>Проверка на документация</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Бързи действия</h3>
+
+          <button class="btn btn-primary">
+            Ново събитие
+          </button>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Препоръки от EduNex AI</h3>
+
+          <p>
+            Имате 2 събития в следващите 48 часа.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
@@ -202,10 +489,58 @@
       hidden>
 
       <div class="section-heading">
-        <h2>Комуникация</h2>
+        <div>
+          <h2>Комуникация</h2>
+        </div>
       </div>
 
-      <p>Имейли и съобщения ще се показват тук.</p>
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Бързи действия</h3>
+
+          <button class="btn btn-primary">
+            Ново съобщение
+          </button>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Последни съобщения</h3>
+
+          <ul>
+            <li>Мария Петрова</li>
+            <li>Иван Иванов</li>
+            <li>Родителски съвет</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Последни имейли</h3>
+
+          <ul>
+            <li>Покана за среща</li>
+            <li>График за следващата седмица</li>
+            <li>Нова задача</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Препоръки от EduNex AI</h3>
+
+          <p>
+            Имате 4 непрочетени съобщения.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
@@ -215,10 +550,57 @@
       hidden>
 
       <div class="section-heading">
-        <h2>Файлове</h2>
+        <div>
+          <h2>Файлове</h2>
+        </div>
       </div>
 
-      <p>Файловете ще се показват тук.</p>
+      <div class="workspace-cards">
+
+        <div class="workspace-card">
+
+          <h3>Бързи действия</h3>
+
+          <button class="btn btn-primary">
+            Качи файл
+          </button>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Последно използвани</h3>
+
+          <ul>
+            <li>Учебен план 2027.pdf</li>
+            <li>STEM отчет.xlsx</li>
+            <li>График учители.docx</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Споделени файлове</h3>
+
+          <ul>
+            <li>Бюджет.xlsx</li>
+            <li>Годишен отчет.docx</li>
+          </ul>
+
+        </div>
+
+        <div class="workspace-card">
+
+          <h3>Препоръки от EduNex AI</h3>
+
+          <p>
+            Имате 5 файла, които не са отваряни през последните 30 дни.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
