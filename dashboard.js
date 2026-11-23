@@ -15,7 +15,9 @@ document.querySelectorAll(".dashboard-nav-item").forEach((button) => {
 
     const sectionName = button.dataset.section;
 
-    if (!sectionName) return;
+    if (!sectionName) {
+      return;
+    }
 
     document
       .querySelectorAll(".dashboard-nav-item")
@@ -78,7 +80,9 @@ if (difyForm) {
       const message =
         difyInput.value.trim();
 
-      if (!message) return;
+      if (!message) {
+        return;
+      }
 
       addMessage(
         message,
@@ -107,10 +111,12 @@ if (difyForm) {
           await response.json();
 
         if (!response.ok) {
+
           throw new Error(
             result.error ||
             "Грешка при връзката с EduNex AI."
           );
+
         }
 
         addMessage(
@@ -133,10 +139,7 @@ if (difyForm) {
 
 }
 
-function addMessage(
-  text,
-  className
-) {
+function addMessage(text, className) {
 
   const message =
     document.createElement("div");
@@ -146,9 +149,7 @@ function addMessage(
 
   message.textContent = text;
 
-  difyMessages.appendChild(
-    message
-  );
+  difyMessages.appendChild(message);
 
   difyMessages.scrollTop =
     difyMessages.scrollHeight;
@@ -157,8 +158,6 @@ function addMessage(
 
 const createTaskBtn =
   document.getElementById("create-task-btn");
-
-console.log("Бутон:", createTaskBtn);
 
 createTaskBtn?.addEventListener(
   "click",
@@ -172,33 +171,44 @@ createTaskBtn?.addEventListener(
       return;
     }
 
-    const response = await fetch(
-      "https://edunex-api.drilskib.workers.dev/api/tasks/create",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title
-        })
+    try {
+
+      const response =
+        await fetch(
+          "https://edunex-api.drilskib.workers.dev/api/tasks/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              title
+            })
+          }
+        );
+
+      const result =
+        await response.json();
+
+      if (result.success) {
+
+        alert(
+          "Задачата е създадена."
+        );
+
+      } else {
+
+        alert(
+          result.error ||
+          "Грешка."
+        );
+
       }
-    );
 
-    const result =
-      await response.json();
-
-    if (result.success) {
+    } catch (error) {
 
       alert(
-        "Задачата е създадена."
-      );
-
-    } else {
-
-      alert(
-        result.error ||
-        "Грешка."
+        "Неуспешна връзка със сървъра."
       );
 
     }
