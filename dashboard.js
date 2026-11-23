@@ -156,62 +156,58 @@ function addMessage(text, className) {
 
 }
 
-const createTaskBtn =
-  document.getElementById("create-task-btn");
+document
+  .querySelectorAll("[data-create-task]")
+  .forEach((createTaskBtn) => {
+    createTaskBtn.addEventListener("click", async () => {
+      const title = prompt(
+        "Въведете име на задачата:"
+      );
 
-createTaskBtn?.addEventListener(
-  "click",
-  async () => {
+      if (!title) {
+        return;
+      }
 
-    const title = prompt(
-      "Въведете име на задачата:"
-    );
+      try {
 
-    if (!title) {
-      return;
-    }
+        const response =
+          await fetch(
+            "https://edunex-api.drilskib.workers.dev/api/tasks/create",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                title
+              })
+            }
+          );
 
-    try {
+        const result =
+          await response.json();
 
-      const response =
-        await fetch(
-          "https://edunex-api.drilskib.workers.dev/api/tasks/create",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              title
-            })
-          }
-        );
+        if (result.success) {
 
-      const result =
-        await response.json();
+          alert(
+            "Задачата е създадена."
+          );
 
-      if (result.success) {
+        } else {
+
+          alert(
+            result.error ||
+            "Грешка."
+          );
+
+        }
+
+      } catch (error) {
 
         alert(
-          "Задачата е създадена."
-        );
-
-      } else {
-
-        alert(
-          result.error ||
-          "Грешка."
+          "Неуспешна връзка със сървъра."
         );
 
       }
-
-    } catch (error) {
-
-      alert(
-        "Неуспешна връзка със сървъра."
-      );
-
-    }
-
-  }
-);
+    });
+  });
