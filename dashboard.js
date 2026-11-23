@@ -158,6 +158,8 @@ function addMessage(
 const createTaskBtn =
   document.getElementById("create-task-btn");
 
+console.log("Бутон:", createTaskBtn);
+
 createTaskBtn?.addEventListener(
   "click",
   async () => {
