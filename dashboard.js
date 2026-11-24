@@ -1,3 +1,35 @@
+const currentUser =
+  JSON.parse(
+    localStorage.getItem("edunexUser")
+  );
+
+if (!currentUser) {
+
+  window.location.href =
+    "auth.html#login";
+
+}
+
+const profileName =
+  document.getElementById(
+    "profile-name"
+  );
+
+const profileRole =
+  document.getElementById(
+    "profile-role"
+  );
+
+if (profileName) {
+  profileName.textContent =
+    currentUser.name;
+}
+
+if (profileRole) {
+  profileRole.textContent =
+    currentUser.role;
+}
+
 const sections = {
   home: document.getElementById("home-section"),
   ai: document.getElementById("ai-section"),
@@ -211,3 +243,24 @@ document
       }
     });
   });
+
+const logoutBtn =
+  document.getElementById(
+    "logout-btn"
+  );
+
+logoutBtn?.addEventListener(
+  "click",
+  (event) => {
+
+    event.preventDefault();
+
+    localStorage.removeItem(
+      "edunexUser"
+    );
+
+    window.location.href =
+      "auth.html#login";
+
+  }
+);

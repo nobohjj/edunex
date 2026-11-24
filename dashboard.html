@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="bg">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,316 +11,162 @@
 
 <body class="dashboard-page">
 
-<div class="dashboard-shell">
+  <div class="dashboard-shell">
 
-  <aside class="dashboard-sidebar">
+    <aside class="dashboard-sidebar">
 
-    <a class="dashboard-brand" href="dashboard.html">
-      <span>EduNex</span>
-    </a>
+      <a class="dashboard-brand" href="dashboard.html">
+        <span>EduNex</span>
+      </a>
 
-    <nav class="dashboard-nav">
+      <nav class="dashboard-nav">
 
-      <button
-        class="dashboard-nav-item active"
-        data-section="home"
-        type="button">
-        Начало
-      </button>
-
-      <button
-        class="dashboard-nav-item"
-        data-section="ai"
-        type="button">
-        AI Асистент
-      </button>
-
-      <button
-        class="dashboard-nav-item"
-        id="workspace-toggle"
-        type="button">
-
-        <span>Работно пространство</span>
-        <span id="workspace-arrow">▶</span>
-
-      </button>
-
-      <div id="workspace-submenu" hidden>
-
-        <button
-          class="dashboard-nav-item sub-item"
-          data-section="documents"
-          type="button">
-          Документи
+        <button class="dashboard-nav-item active" data-section="home" type="button">
+          Начало
         </button>
 
-        <button
-          class="dashboard-nav-item sub-item"
-          data-section="tasks"
-          type="button">
-          Задачи
+        <button class="dashboard-nav-item" data-section="ai" type="button">
+          AI Асистент
         </button>
 
-        <button
-          class="dashboard-nav-item sub-item"
-          data-section="calendar"
-          type="button">
-          Календар
+        <button class="dashboard-nav-item" id="workspace-toggle" type="button">
+
+          <span>Работно пространство</span>
+          <span id="workspace-arrow">▶</span>
+
         </button>
 
-        <button
-          class="dashboard-nav-item sub-item"
-          data-section="communication"
-          type="button">
-          Комуникация
-        </button>
+        <div id="workspace-submenu" hidden>
 
-        <button
-          class="dashboard-nav-item sub-item"
-          data-section="files"
-          type="button">
-          Файлове
-        </button>
+          <button class="dashboard-nav-item sub-item" data-section="documents" type="button">
+            Документи
+          </button>
 
-      </div>
+          <button class="dashboard-nav-item sub-item" data-section="tasks" type="button">
+            Задачи
+          </button>
 
-      <button
-        class="dashboard-nav-item"
-        data-section="settings"
-        type="button">
-        Настройки
-      </button>
+          <button class="dashboard-nav-item sub-item" data-section="calendar" type="button">
+            Календар
+          </button>
 
-    </nav>
+          <button class="dashboard-nav-item sub-item" data-section="communication" type="button">
+            Комуникация
+          </button>
 
-    <a class="dashboard-signout" href="auth.html#login">
-      Изход
-    </a>
-
-  </aside>
-
-  <main class="dashboard-main">
-
-    <header class="dashboard-header">
-      <h1>Добре дошли в EduNex</h1>
-      <div class="dashboard-search">
-
-      <input
-        type="text"
-        placeholder="Търсене в документи, задачи, файлове и съобщения">
-
-      </div>
-    </header>
-
-    <div class="dashboard-profile">
-
-    <div class="profile-avatar">
-      B
-    </div>
-
-    <div class="profile-info">
-      <strong>Борис Дрилски</strong>
-      <span>Администратор</span>
-    </div>
-
-    <button class="notification-button">
-
-      🔔
-
-      <span class="notification-badge">
-        4
-      </span>
-
-    </button>
-
-  </div>
-
-    <section
-      id="home-section"
-      class="dashboard-section">
-
-      <div class="section-heading">
-        <div>
-          <h2>Добре дошли в EduNex</h2>
-        </div>
-      </div>
-
-      <div class="workspace-cards">
-
-        <div class="workspace-card">
-
-          <h3>Документи</h3>
-          <h2>12</h2>
-
-          <p>
-            Активни документи
-          </p>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Задачи</h3>
-          <h2>7</h2>
-
-          <p>
-            Активни задачи
-          </p>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Събития</h3>
-          <h2>3</h2>
-
-          <p>
-            Предстоящи събития
-          </p>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Съобщения</h3>
-          <h2>4</h2>
-
-          <p>
-            Непрочетени съобщения
-          </p>
-
-        </div>
-
-      </div>
-
-      <div class="workspace-card">
-
-        <h3>Бързи действия</h3>
-
-        <button class="btn btn-primary">
-          Нов документ
-        </button>
-
-        <br><br>
-
-        <button
-          class="btn btn-secondary"
-          id="home-create-task-btn"
-          data-create-task>
-          Нова задача
-        </button>
-
-      </div>
-
-      <br>
-
-      <div class="workspace-cards">
-
-        <div class="workspace-card">
-
-          <h3>Последна активност</h3>
-
-          <ul>
-            <li>Редактиран график на учители</li>
-            <li>Добавена нова задача</li>
-            <li>Създаден нов документ</li>
-          </ul>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Предстоящи събития</h3>
-
-          <ul>
-            <li>Педагогически съвет</li>
-            <li>Родителска среща</li>
-            <li>STEM презентация</li>
-          </ul>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Препоръки от EduNex AI</h3>
-
-          <ul>
-            <li>Имате 2 задачи с наближаващ срок.</li>
-            <li>Имате 4 непрочетени съобщения.</li>
-            <li>Не сте отваряли 5 файла от над 30 дни.</li>
-          </ul>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Бързи действия</h3>
-
-          <button class="btn btn-primary">
-            Нов документ
+          <button class="dashboard-nav-item sub-item" data-section="files" type="button">
+            Файлове
           </button>
 
         </div>
 
+        <button class="dashboard-nav-item" data-section="settings" type="button">
+          Настройки
+        </button>
+
+      </nav>
+
+      <a class="dashboard-signout" href="#" id="logout-btn">
+        Изход
+      </a>
+
+    </aside>
+
+    <main class="dashboard-main">
+
+      <header class="dashboard-header">
+        <h1>Добре дошли в EduNex</h1>
+        <div class="dashboard-search">
+
+          <input type="text" placeholder="Търсене в документи, задачи, файлове и съобщения">
+
+        </div>
+      </header>
+
+      <div class="dashboard-profile">
+
+        <div class="profile-avatar">
+          B
+        </div>
+
+        <div class="profile-info">
+          <strong id="profile-name">
+            Зареждане...
+          </strong>
+
+          <span id="profile-role">
+            Зареждане...
+          </span>
+        </div>
+
+        <button class="notification-button">
+
+          🔔
+
+          <span class="notification-badge">
+            4
+          </span>
+
+        </button>
+
       </div>
 
-    </section>
+      <section id="home-section" class="dashboard-section">
 
+        <div class="section-heading">
+          <div>
+            <h2>Добре дошли в EduNex</h2>
+          </div>
+        </div>
 
-    <section
-      id="ai-section"
-      class="dashboard-section"
-      hidden>
+        <div class="workspace-cards">
 
-      <div class="section-heading">
-        <h2>AI Асистент</h2>
-      </div>
+          <div class="workspace-card">
 
-      <div class="agent-chat">
+            <h3>Документи</h3>
+            <h2>12</h2>
 
-        <div
-          class="agent-chat-messages"
-          id="dify-messages">
+            <p>
+              Активни документи
+            </p>
 
-          <div class="agent-message assistant-message">
-            Как мога да Ви помогна?
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Задачи</h3>
+            <h2>7</h2>
+
+            <p>
+              Активни задачи
+            </p>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Събития</h3>
+            <h2>3</h2>
+
+            <p>
+              Предстоящи събития
+            </p>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Съобщения</h3>
+            <h2>4</h2>
+
+            <p>
+              Непрочетени съобщения
+            </p>
+
           </div>
 
         </div>
 
-        <form
-          class="agent-chat-form"
-          id="dify-form">
-
-          <input
-            id="dify-input"
-            type="text"
-            placeholder="Напишете съобщение"
-            autocomplete="off">
-
-          <button type="submit">
-            Изпрати
-          </button>
-
-        </form>
-
-      </div>
-
-    </section>
-
-    <section
-      id="documents-section"
-      class="dashboard-section"
-      hidden>
-
-      <div class="section-heading">
-        <div>
-          <h2>Документи</h2>
-        </div>
-      </div>
-
-      <div class="workspace-cards">
-
         <div class="workspace-card">
 
           <h3>Бързи действия</h3>
@@ -328,304 +175,398 @@
             Нов документ
           </button>
 
-        </div>
+          <br><br>
 
-        <div class="workspace-card">
-
-          <h3>Последни документи</h3>
-
-          <ul>
-            <li>План за STEM център</li>
-            <li>График на учителите</li>
-            <li>Бюджет 2027</li>
-          </ul>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Последна активност</h3>
-
-          <p>Последен преглед преди 2 часа.</p>
-
-        </div>
-
-        <div class="workspace-card">
-
-          <h3>Предложения от EduNex AI</h3>
-
-          <p>
-            Имате 3 документа без редакция през последните 30 дни.
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <section
-      id="tasks-section"
-      class="dashboard-section"
-      hidden>
-
-      <div class="section-heading">
-        <div>
-          <h2>Задачи</h2>
-        </div>
-      </div>
-
-      <div class="workspace-cards">
-
-        <div class="workspace-card">
-
-          <h3>Бързи действия</h3>
-
-          <button
-            class="btn btn-primary"
-            id="create-task-btn"
-            data-create-task>
+          <button class="btn btn-secondary" id="home-create-task-btn" data-create-task>
             Нова задача
           </button>
 
+        </div>
+
+        <br>
+
+        <div class="workspace-cards">
+
+          <div class="workspace-card">
+
+            <h3>Последна активност</h3>
+
+            <ul>
+              <li>Редактиран график на учители</li>
+              <li>Добавена нова задача</li>
+              <li>Създаден нов документ</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Предстоящи събития</h3>
+
+            <ul>
+              <li>Педагогически съвет</li>
+              <li>Родителска среща</li>
+              <li>STEM презентация</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Препоръки от EduNex AI</h3>
+
+            <ul>
+              <li>Имате 2 задачи с наближаващ срок.</li>
+              <li>Имате 4 непрочетени съобщения.</li>
+              <li>Не сте отваряли 5 файла от над 30 дни.</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Бързи действия</h3>
+
+            <button class="btn btn-primary">
+              Нов документ
+            </button>
+
+          </div>
 
         </div>
 
-        <div class="workspace-card">
+      </section>
 
-          <h3>Моите задачи</h3>
 
-          <ul>
-            <li>Подготви педагогически съвет</li>
-            <li>Изготви график за учители</li>
-            <li>Провери STEM документация</li>
-          </ul>
+      <section id="ai-section" class="dashboard-section" hidden>
+
+        <div class="section-heading">
+          <h2>AI Асистент</h2>
+        </div>
+
+        <div class="agent-chat">
+
+          <div class="agent-chat-messages" id="dify-messages">
+
+            <div class="agent-message assistant-message">
+              Как мога да Ви помогна?
+            </div>
+
+          </div>
+
+          <form class="agent-chat-form" id="dify-form">
+
+            <input id="dify-input" type="text" placeholder="Напишете съобщение" autocomplete="off">
+
+            <button type="submit">
+              Изпрати
+            </button>
+
+          </form>
 
         </div>
 
-        <div class="workspace-card">
+      </section>
 
-          <h3>Спешни задачи</h3>
+      <section id="documents-section" class="dashboard-section" hidden>
 
-          <ul>
-            <li>Изпрати покани за среща</li>
-          </ul>
+        <div class="section-heading">
+          <div>
+            <h2>Документи</h2>
+          </div>
+        </div>
+
+        <div class="workspace-cards">
+
+          <div class="workspace-card">
+
+            <h3>Бързи действия</h3>
+
+            <button class="btn btn-primary">
+              Нов документ
+            </button>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Последни документи</h3>
+
+            <ul>
+              <li>План за STEM център</li>
+              <li>График на учителите</li>
+              <li>Бюджет 2027</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Последна активност</h3>
+
+            <p>Последен преглед преди 2 часа.</p>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Предложения от EduNex AI</h3>
+
+            <p>
+              Имате 3 документа без редакция през последните 30 дни.
+            </p>
+
+          </div>
 
         </div>
 
-        <div class="workspace-card">
+      </section>
 
-          <h3>Препоръки от EduNex AI</h3>
+      <section id="tasks-section" class="dashboard-section" hidden>
 
-          <p>
-            Имате 2 задачи с наближаващ срок.
-          </p>
+        <div class="section-heading">
+          <div>
+            <h2>Задачи</h2>
+          </div>
+        </div>
+
+        <div class="workspace-cards">
+
+          <div class="workspace-card">
+
+            <h3>Бързи действия</h3>
+
+            <button class="btn btn-primary" id="create-task-btn" data-create-task>
+              Нова задача
+            </button>
+
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Моите задачи</h3>
+
+            <ul>
+              <li>Подготви педагогически съвет</li>
+              <li>Изготви график за учители</li>
+              <li>Провери STEM документация</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Спешни задачи</h3>
+
+            <ul>
+              <li>Изпрати покани за среща</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Препоръки от EduNex AI</h3>
+
+            <p>
+              Имате 2 задачи с наближаващ срок.
+            </p>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+      <section id="calendar-section" class="dashboard-section" hidden>
 
-    <section
-      id="calendar-section"
-      class="dashboard-section"
-      hidden>
-
-      <div class="section-heading">
-        <div>
-          <h2>Календар</h2>
-        </div>
-      </div>
-
-      <div class="workspace-cards">
-
-        <div class="workspace-card">
-
-          <h3>Днес</h3>
-
-          <ul>
-            <li>15:00 - Педагогически съвет</li>
-            <li>17:00 - Среща с родители</li>
-          </ul>
-
+        <div class="section-heading">
+          <div>
+            <h2>Календар</h2>
+          </div>
         </div>
 
-        <div class="workspace-card">
+        <div class="workspace-cards">
 
-          <h3>Тази седмица</h3>
+          <div class="workspace-card">
 
-          <ul>
-            <li>Родителска среща</li>
-            <li>STEM презентация</li>
-            <li>Проверка на документация</li>
-          </ul>
+            <h3>Днес</h3>
 
-        </div>
+            <ul>
+              <li>15:00 - Педагогически съвет</li>
+              <li>17:00 - Среща с родители</li>
+            </ul>
 
-        <div class="workspace-card">
+          </div>
 
-          <h3>Бързи действия</h3>
+          <div class="workspace-card">
 
-          <button class="btn btn-primary">
-            Ново събитие
-          </button>
+            <h3>Тази седмица</h3>
 
-        </div>
+            <ul>
+              <li>Родителска среща</li>
+              <li>STEM презентация</li>
+              <li>Проверка на документация</li>
+            </ul>
 
-        <div class="workspace-card">
+          </div>
 
-          <h3>Препоръки от EduNex AI</h3>
+          <div class="workspace-card">
 
-          <p>
-            Имате 2 събития в следващите 48 часа.
-          </p>
+            <h3>Бързи действия</h3>
+
+            <button class="btn btn-primary">
+              Ново събитие
+            </button>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Препоръки от EduNex AI</h3>
+
+            <p>
+              Имате 2 събития в следващите 48 часа.
+            </p>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+      <section id="communication-section" class="dashboard-section" hidden>
 
-    <section
-      id="communication-section"
-      class="dashboard-section"
-      hidden>
-
-      <div class="section-heading">
-        <div>
-          <h2>Комуникация</h2>
-        </div>
-      </div>
-
-      <div class="workspace-cards">
-
-        <div class="workspace-card">
-
-          <h3>Бързи действия</h3>
-
-          <button class="btn btn-primary">
-            Ново съобщение
-          </button>
-
+        <div class="section-heading">
+          <div>
+            <h2>Комуникация</h2>
+          </div>
         </div>
 
-        <div class="workspace-card">
+        <div class="workspace-cards">
 
-          <h3>Последни съобщения</h3>
+          <div class="workspace-card">
 
-          <ul>
-            <li>Мария Петрова</li>
-            <li>Иван Иванов</li>
-            <li>Родителски съвет</li>
-          </ul>
+            <h3>Бързи действия</h3>
 
-        </div>
+            <button class="btn btn-primary">
+              Ново съобщение
+            </button>
 
-        <div class="workspace-card">
+          </div>
 
-          <h3>Последни имейли</h3>
+          <div class="workspace-card">
 
-          <ul>
-            <li>Покана за среща</li>
-            <li>График за следващата седмица</li>
-            <li>Нова задача</li>
-          </ul>
+            <h3>Последни съобщения</h3>
 
-        </div>
+            <ul>
+              <li>Мария Петрова</li>
+              <li>Иван Иванов</li>
+              <li>Родителски съвет</li>
+            </ul>
 
-        <div class="workspace-card">
+          </div>
 
-          <h3>Препоръки от EduNex AI</h3>
+          <div class="workspace-card">
 
-          <p>
-            Имате 4 непрочетени съобщения.
-          </p>
+            <h3>Последни имейли</h3>
+
+            <ul>
+              <li>Покана за среща</li>
+              <li>График за следващата седмица</li>
+              <li>Нова задача</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Препоръки от EduNex AI</h3>
+
+            <p>
+              Имате 4 непрочетени съобщения.
+            </p>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+      <section id="files-section" class="dashboard-section" hidden>
 
-    <section
-      id="files-section"
-      class="dashboard-section"
-      hidden>
-
-      <div class="section-heading">
-        <div>
-          <h2>Файлове</h2>
-        </div>
-      </div>
-
-      <div class="workspace-cards">
-
-        <div class="workspace-card">
-
-          <h3>Бързи действия</h3>
-
-          <button class="btn btn-primary">
-            Качи файл
-          </button>
-
+        <div class="section-heading">
+          <div>
+            <h2>Файлове</h2>
+          </div>
         </div>
 
-        <div class="workspace-card">
+        <div class="workspace-cards">
 
-          <h3>Последно използвани</h3>
+          <div class="workspace-card">
 
-          <ul>
-            <li>Учебен план 2027.pdf</li>
-            <li>STEM отчет.xlsx</li>
-            <li>График учители.docx</li>
-          </ul>
+            <h3>Бързи действия</h3>
 
-        </div>
+            <button class="btn btn-primary">
+              Качи файл
+            </button>
 
-        <div class="workspace-card">
+          </div>
 
-          <h3>Споделени файлове</h3>
+          <div class="workspace-card">
 
-          <ul>
-            <li>Бюджет.xlsx</li>
-            <li>Годишен отчет.docx</li>
-          </ul>
+            <h3>Последно използвани</h3>
 
-        </div>
+            <ul>
+              <li>Учебен план 2027.pdf</li>
+              <li>STEM отчет.xlsx</li>
+              <li>График учители.docx</li>
+            </ul>
 
-        <div class="workspace-card">
+          </div>
 
-          <h3>Препоръки от EduNex AI</h3>
+          <div class="workspace-card">
 
-          <p>
-            Имате 5 файла, които не са отваряни през последните 30 дни.
-          </p>
+            <h3>Споделени файлове</h3>
+
+            <ul>
+              <li>Бюджет.xlsx</li>
+              <li>Годишен отчет.docx</li>
+            </ul>
+
+          </div>
+
+          <div class="workspace-card">
+
+            <h3>Препоръки от EduNex AI</h3>
+
+            <p>
+              Имате 5 файла, които не са отваряни през последните 30 дни.
+            </p>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+      <section id="settings-section" class="dashboard-section" hidden>
 
-    <section
-      id="settings-section"
-      class="dashboard-section"
-      hidden>
+        <div class="section-heading">
+          <h2>Настройки</h2>
+        </div>
 
-      <div class="section-heading">
-        <h2>Настройки</h2>
-      </div>
+        <p>Настройките ще бъдат добавени в следваща версия.</p>
 
-      <p>Настройките ще бъдат добавени в следваща версия.</p>
+      </section>
 
-    </section>
+    </main>
 
-  </main>
+  </div>
 
-</div>
-
-<script src="dashboard.js"></script>
+  <script src="dashboard.js"></script>
 
 </body>
+
 </html>
