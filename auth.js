@@ -1,6 +1,7 @@
 const tabs = document.querySelectorAll(".tab-button");
 const forms = document.querySelectorAll(".auth-form");
 const switchLink = document.querySelector(".switch-link");
+let verifiedRegistrationEmail = null;
 
 function activateTab(name) {
   tabs.forEach((tab) => {
@@ -24,8 +25,8 @@ switchLink.addEventListener("click", (event) => {
 document.querySelectorAll("[data-provider]").forEach((button) => {
   button.addEventListener("click", () => {
     const mode =
-      document.querySelector(".tab-button.active")?.dataset.tab || "login";
-    activateTab("login");
+      document.querySelector(".tab-button.active")?.dataset.tab || "register";
+    window.location.assign(`/auth/${button.dataset.provider}?mode=${mode}`);
   });
 });
 
@@ -34,15 +35,20 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const emails = [
+      form.get("register-google-email"),
+      form.get("register-microsoft-email"),
+    ].filter(Boolean);
     await submitAuth(
-      "https://edunex-api.drilskib.workers.dev/api/auth/register",
+      "/api/auth/register",
       {
         name: form.get("register-name"),
         role: form.get("register-role"),
-
-        googleEmail: form.get("register-google-email"),
-        microsoftEmail: form.get("register-microsoft-email"),
-
+        email:
+          emails.find(
+            (email) =>
+              email.trim().toLowerCase() === verifiedRegistrationEmail,
+          ) || emails[0],
         password: form.get("register-password"),
         passwordConfirmation: form.get("register-password-confirm"),
       },
@@ -59,18 +65,14 @@ async function submitAuth(endpoint, body) {
       body: JSON.stringify(body),
     });
 
-    const contentType = response.headers.get("content-type");
-
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error(
-        "Регистрацията не е налична в GitHub Pages. Необходим е сървър.",
-      );
+    if (!response.headers.get("content-type")?.includes("application/json")) {
+      throw new Error("Удостоверяването изисква стартиран EduNex сървър.");
     }
 
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || "Грешка при регистрация.");
+      throw new Error(result.error || "Грешка при удостоверяването.");
     }
 
     window.location.assign("dashboard.html");
@@ -95,32 +97,44 @@ document
     event.preventDefault();
 
     try {
-      const response = await fetch(
-        "https://edunex-api.drilskib.workers.dev/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            googleEmail: document.getElementById("login-google-email").value,
-            microsoftEmail: document.getElementById("login-microsoft-email")
-              .value,
-            password: document.getElementById("login-password").value,
-          }),
-        },
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Грешка при вход.");
+      const googleEmail =
+        document.getElementById("login-google-email").value.trim();
+      const microsoftEmail =
+        document.getElementById("login-microsoft-email").value.trim();
+      if (googleEmail && microsoftEmail && googleEmail !== microsoftEmail) {
+        throw new Error("Въведете само един имейл за вход.");
       }
 
-      localStorage.setItem("edunexUser", JSON.stringify(result.user));
-
-      window.location.href = "dashboard.html";
+      await submitAuth("/api/auth/login", {
+        email: googleEmail || microsoftEmail,
+        password: document.getElementById("login-password").value,
+      });
     } catch (error) {
       alert(error.message);
     }
   });
+
+fetch("/api/auth/session")
+  .then(async (response) => {
+    if (!response.ok) {
+      throw new Error("Неуспешна проверка на сесията.");
+    }
+    return response.json();
+  })
+  .then((session) => {
+    if (session.authenticated) {
+      window.location.replace("dashboard.html");
+      return;
+    }
+    if (session.registrationEmail) {
+      activateTab("register");
+      verifiedRegistrationEmail = session.registrationEmail.toLowerCase();
+      const emailInput = document.getElementById(
+        session.registrationProvider === "microsoft"
+          ? "register-microsoft-email"
+          : "register-google-email",
+      );
+      emailInput.value = session.registrationEmail;
+    }
+  })
+  .catch((error) => alert(error.message));

@@ -44,7 +44,43 @@ const server = createServer(async (request, response) => {
     }
 
     if (request.method === 'GET' && requestUrl.pathname === '/api/auth/session') {
-      sendJson(response, 200, { authenticated: Boolean(getSession(request)) });
+      const { session, user } = getAuthenticatedUser(request);
+      sendJson(response, 200, {
+        authenticated: Boolean(user),
+        user: user ? publicUser(user) : null,
+        registrationEmail: session?.oauthVerified ? session.identity?.email : null,
+        registrationProvider: session?.oauthVerified ? session.identity?.provider : null
+      });
+      return;
+    }
+
+    if (request.method === 'POST' && requestUrl.pathname === '/api/auth/login') {
+      await login(request, response);
+      return;
+    }
+
+    if (request.method === 'POST' && requestUrl.pathname === '/api/auth/logout') {
+      logout(request, response);
+      return;
+    }
+
+    if (request.method === 'DELETE' && requestUrl.pathname === '/api/auth/account') {
+      await deleteAccount(request, response);
+      return;
+    }
+
+    if (request.method === 'GET' && requestUrl.pathname === '/api/tasks') {
+      const { user } = getAuthenticatedUser(request);
+      if (!user) {
+        sendJson(response, 401, { error: 'Влезте в акаунта си.' });
+        return;
+      }
+      sendJson(response, 200, { tasks: user.tasks || [] });
+      return;
+    }
+
+    if (request.method === 'POST' && requestUrl.pathname === '/api/tasks') {
+      await createTask(request, response);
       return;
     }
 
@@ -165,6 +201,12 @@ async function finishOAuth(request, response, provider, requestUrl) {
 }
 
 async function chatWithDify(request, response) {
+  const { user } = getAuthenticatedUser(request);
+  if (!user) {
+    sendJson(response, 401, { error: 'Влезте в акаунта си.' });
+    return;
+  }
+
   const apiKey = process.env.DIFY_API_KEY;
   if (!apiKey) {
     sendJson(response, 503, { error: 'Dify API ключът не е конфигуриран.' });
@@ -185,8 +227,7 @@ async function chatWithDify(request, response) {
     return;
   }
 
-  const sessionId = parseCookies(request.headers.cookie || '').edunex_session || request.socket.remoteAddress || 'edunex-dashboard';
-  const conversationId = difyConversations.get(sessionId) || '';
+  const conversationId = difyConversations.get(user.id) || '';
   const apiUrl = (process.env.DIFY_API_URL || 'https://api.dify.ai/v1').replace(/\/$/, '');
 
   try {
@@ -201,7 +242,7 @@ async function chatWithDify(request, response) {
         query: message,
         response_mode: 'blocking',
         conversation_id: conversationId,
-        user: 'edunex-dashboard'
+        user: user.id
       })
     });
 
@@ -212,7 +253,7 @@ async function chatWithDify(request, response) {
     }
 
     if (result.conversation_id) {
-      difyConversations.set(sessionId, result.conversation_id);
+      difyConversations.set(user.id, result.conversation_id);
     }
 
     sendJson(response, 200, {
@@ -252,6 +293,10 @@ async function register(request, response) {
     sendJson(response, 409, { error: 'Тази самоличност вече има регистриран акаунт.' });
     return;
   }
+  if ([...users.values()].some((user) => user.email === identity.email)) {
+    sendJson(response, 409, { error: 'Този имейл вече има регистриран акаунт.' });
+    return;
+  }
   const user = {
     id: randomBytes(16).toString('hex'),
     provider: identity.provider,
@@ -261,13 +306,98 @@ async function register(request, response) {
     name: body.name,
     role: body.role,
     passwordHash: await hashPassword(body.password),
+    tasks: [],
     createdAt: new Date().toISOString()
   };
   users.set(session.userKey, user);
   session.oauthVerified = false;
   session.identity = null;
   await persistUsers();
-  sendJson(response, 200, { authenticated: true });
+  sendJson(response, 200, { authenticated: true, user: publicUser(user) });
+}
+
+async function login(request, response) {
+  let body;
+  try {
+    body = await readJson(request);
+  } catch {
+    sendJson(response, 400, { error: 'Невалидни данни за вход.' });
+    return;
+  }
+
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+  if (!email || typeof body.password !== 'string' || !body.password) {
+    sendJson(response, 400, { error: 'Въведете имейл и парола.' });
+    return;
+  }
+
+  const matches = [];
+  for (const [userKey, user] of users) {
+    if (user.email === email && await verifyPassword(body.password, user.passwordHash)) {
+      matches.push({ userKey, user });
+    }
+  }
+  if (matches.length !== 1) {
+    sendJson(response, 401, { error: 'Невалиден имейл или парола.' });
+    return;
+  }
+
+  const { userKey, user } = matches[0];
+  setSessionCookie(response, createSession({ userKey }));
+  sendJson(response, 200, { authenticated: true, user: publicUser(user) });
+}
+
+function logout(request, response) {
+  const sessionId = parseCookies(request.headers.cookie || '').edunex_session;
+  sessions.delete(sessionId);
+  clearSessionCookie(response);
+  sendJson(response, 200, { authenticated: false });
+}
+
+async function deleteAccount(request, response) {
+  const session = getSession(request);
+  if (!session || !users.has(session.userKey)) {
+    sendJson(response, 401, { error: 'Влезте в акаунта си.' });
+    return;
+  }
+
+  const user = users.get(session.userKey);
+  users.delete(session.userKey);
+  if (user) difyConversations.delete(user.id);
+  for (const [id, activeSession] of sessions) {
+    if (activeSession.userKey === session.userKey) sessions.delete(id);
+  }
+  await persistUsers();
+  clearSessionCookie(response);
+  sendJson(response, 200, { deleted: true });
+}
+
+async function createTask(request, response) {
+  const { user } = getAuthenticatedUser(request);
+  if (!user) {
+    sendJson(response, 401, { error: 'Влезте в акаунта си.' });
+    return;
+  }
+
+  let body;
+  try {
+    body = await readJson(request);
+  } catch {
+    sendJson(response, 400, { error: 'Невалидни данни за задачата.' });
+    return;
+  }
+
+  const title = typeof body.title === 'string' ? body.title.trim() : '';
+  if (!title || title.length > 200) {
+    sendJson(response, 400, { error: 'Името на задачата трябва да е до 200 символа.' });
+    return;
+  }
+
+  user.tasks ||= [];
+  const task = { id: randomBytes(12).toString('hex'), title, createdAt: new Date().toISOString() };
+  user.tasks.push(task);
+  await persistUsers();
+  sendJson(response, 201, { task });
 }
 
 async function verifyIdentityToken(provider, token, expectedNonce) {
@@ -371,9 +501,24 @@ function getSession(request) {
   return session;
 }
 
+function getAuthenticatedUser(request) {
+  const session = getSession(request);
+  const user = session && !session.oauthVerified ? users.get(session.userKey) : null;
+  return { session, user };
+}
+
+function publicUser(user) {
+  return { id: user.id, email: user.email, name: user.name, role: user.role };
+}
+
 function setSessionCookie(response, sessionId) {
   const secure = isProduction ? '; Secure' : '';
   response.setHeader('Set-Cookie', `edunex_session=${sessionId}; HttpOnly; SameSite=Lax; Path=/; Max-Age=28800${secure}`);
+}
+
+function clearSessionCookie(response) {
+  const secure = isProduction ? '; Secure' : '';
+  response.setHeader('Set-Cookie', `edunex_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${secure}`);
 }
 
 function redirectWithError(response, error) {
@@ -433,6 +578,16 @@ async function persistUsers() {
 async function serveStatic(request, response, pathname) {
   if (request.method !== 'GET') {
     sendJson(response, 405, { error: 'Методът не е разрешен.' });
+    return;
+  }
+  if (pathname === '/dashboard.html' && !getAuthenticatedUser(request).user) {
+    response.writeHead(302, { Location: '/auth.html#register' });
+    response.end();
+    return;
+  }
+  if (pathname === '/auth.html' && getAuthenticatedUser(request).user) {
+    response.writeHead(302, { Location: '/dashboard.html' });
+    response.end();
     return;
   }
   const requestedPath = pathname === '/' ? '/index.html' : pathname;
