@@ -285,7 +285,7 @@ async function register(request, response) {
 
   const identity = session.identity;
   if (!identity || typeof body.email !== 'string' ||
-      body.email.trim().toLowerCase() !== identity.email) {
+    body.email.trim().toLowerCase() !== identity.email) {
     sendJson(response, 400, { error: 'Въведеният имейл не съвпада с удостоверения имейл.' });
     return;
   }
@@ -408,17 +408,17 @@ async function verifyIdentityToken(provider, token, expectedNonce) {
   const config = providerConfig(provider);
   const claims = decodeJwt(token);
   if (!claims || claims.aud !== config.clientId || claims.nonce !== expectedNonce ||
-      typeof claims.exp !== 'number' || claims.exp <= Math.floor(Date.now() / 1000)) {
+    typeof claims.exp !== 'number' || claims.exp <= Math.floor(Date.now() / 1000)) {
     return null;
   }
 
   if (provider === 'google') {
     if (!['https://accounts.google.com', 'accounts.google.com'].includes(claims.iss) ||
-        claims.email_verified !== true || !claims.email || !claims.sub) {
+      claims.email_verified !== true || !claims.email || !claims.sub) {
       return null;
     }
   } else if (!claims.iss?.startsWith('https://login.microsoftonline.com/') ||
-             !claims.iss.endsWith('/v2.0') || !claims.email || !claims.sub) {
+    !claims.iss.endsWith('/v2.0') || !claims.email || !claims.sub) {
     return null;
   }
 

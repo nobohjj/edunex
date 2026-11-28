@@ -87,10 +87,10 @@ async function submitAuth(endpoint, body) {
       result.user ||
       (endpoint.endsWith("/api/auth/register")
         ? {
-            name: body.name,
-            role: body.role,
-            email: body.email || body.googleEmail || body.microsoftEmail,
-          }
+          name: body.name,
+          role: body.role,
+          email: body.email || body.googleEmail || body.microsoftEmail,
+        }
         : null);
     if (user) {
       localStorage.setItem("edunexUser", JSON.stringify(user));
@@ -155,7 +155,7 @@ if (localBackend) {
         emailInput.value = session.registrationEmail;
       }
     })
-    .catch(() => {});
+    .catch(() => { });
 } else if (localStorage.getItem("edunexUser")) {
   window.location.replace("dashboard.html");
 }

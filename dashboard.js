@@ -1,15 +1,16 @@
 const localBackend = ["localhost", "127.0.0.1"].includes(
   window.location.hostname,
 );
+const apiBase = "https://edunex-api.drilskib.workers.dev";
 const storedUser = JSON.parse(localStorage.getItem("edunexUser") || "null");
 const currentUserPromise = localBackend
   ? fetch("/api/auth/session")
-      .then(async (response) => {
-        if (!response.ok) return null;
-        const session = await response.json();
-        return session.authenticated ? session.user : null;
-      })
-      .catch(() => null)
+    .then(async (response) => {
+      if (!response.ok) return null;
+      const session = await response.json();
+      return session.authenticated ? session.user : null;
+    })
+    .catch(() => null)
   : Promise.resolve(storedUser);
 
 currentUserPromise.then((user) => {
@@ -129,7 +130,7 @@ if (difyForm) {
 
         const response =
           await fetch(
-            "/api/dify/chat",
+            `${apiBase}/api/dify/chat`,
             {
               method: "POST",
               headers: {
@@ -207,10 +208,16 @@ document
 
       try {
 
-        const response = await fetch("/api/tasks", {
+        const currentUser = await currentUserPromise;
+        const response = await fetch(`${apiBase}/api/tasks?userId=${encodeURIComponent(currentUser.id)}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title }),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            title,
+            userId: currentUser.id
+          })
         });
         const result =
           await response.json();
@@ -228,28 +235,63 @@ document
   });
 
 async function loadTasks() {
-  const taskList = document.getElementById("my-tasks");
+
+  const taskList =
+    document.getElementById("my-tasks");
+
   if (!taskList) return;
 
-  const response = await fetch("/api/tasks");
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(result.error || "Неуспешно зареждане на задачите.");
+  const currentUser =
+    await currentUserPromise;
+
+  if (!currentUser) return;
+
+  const listsResponse =
+    await fetch(
+      `${apiBase}/api/microsoft/todo/lists?userId=${encodeURIComponent(currentUser.id)}`
+    );
+
+  const listsResult =
+    await listsResponse.json();
+
+  if (!listsResponse.ok) {
+    throw new Error(
+      listsResult.error ||
+      "Неуспешно зареждане на To Do списъците."
+    );
   }
 
   taskList.replaceChildren();
-  if (result.tasks.length === 0) {
-    const emptyState = document.createElement("li");
-    emptyState.textContent = "Все още няма задачи.";
-    taskList.appendChild(emptyState);
+
+  if (
+    !listsResult.lists ||
+    listsResult.lists.length === 0
+  ) {
+
+    const empty =
+      document.createElement("li");
+
+    empty.textContent =
+      "Няма списъци в Microsoft To Do.";
+
+    taskList.appendChild(empty);
+
     return;
+
   }
 
-  result.tasks.forEach((task) => {
-    const item = document.createElement("li");
-    item.textContent = task.title;
+  listsResult.lists.forEach((list) => {
+
+    const item =
+      document.createElement("li");
+
+    item.textContent =
+      list.displayName;
+
     taskList.appendChild(item);
+
   });
+
 }
 
 const logoutBtn =
