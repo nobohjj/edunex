@@ -325,15 +325,17 @@ async function login(request, response) {
     return;
   }
 
-  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
-  if (!email || typeof body.password !== 'string' || !body.password) {
+  const emails = [body.email, body.googleEmail, body.microsoftEmail]
+    .filter((email) => typeof email === 'string' && email.trim())
+    .map((email) => email.trim().toLowerCase());
+  if (emails.length === 0 || typeof body.password !== 'string' || !body.password) {
     sendJson(response, 400, { error: 'Въведете имейл и парола.' });
     return;
   }
 
   const matches = [];
   for (const [userKey, user] of users) {
-    if (user.email === email && await verifyPassword(body.password, user.passwordHash)) {
+    if (emails.includes(user.email) && await verifyPassword(body.password, user.passwordHash)) {
       matches.push({ userKey, user });
     }
   }

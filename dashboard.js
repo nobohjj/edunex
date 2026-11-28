@@ -1,25 +1,30 @@
-const currentUserPromise = fetch("/api/auth/session")
-  .then(async (response) => {
-    if (!response.ok) {
-      throw new Error("Неуспешна проверка на сесията.");
-    }
-    return response.json();
-  })
-  .then((session) => {
-    if (!session.authenticated || !session.user) {
-      window.location.replace("auth.html#register");
-      return null;
-    }
+const localBackend = ["localhost", "127.0.0.1"].includes(
+  window.location.hostname,
+);
+const storedUser = JSON.parse(localStorage.getItem("edunexUser") || "null");
+const currentUserPromise = localBackend
+  ? fetch("/api/auth/session")
+      .then(async (response) => {
+        if (!response.ok) return null;
+        const session = await response.json();
+        return session.authenticated ? session.user : null;
+      })
+      .catch(() => null)
+  : Promise.resolve(storedUser);
 
-    document.getElementById("profile-name").textContent = session.user.name;
-    document.getElementById("profile-role").textContent = session.user.role;
-    return session.user;
-  })
-  .catch((error) => {
-    alert(error.message);
+currentUserPromise.then((user) => {
+  if (!user) {
     window.location.replace("auth.html#register");
-    return null;
-  });
+    return;
+  }
+
+  document.getElementById("profile-name").textContent = user.name || "";
+  document.getElementById("profile-role").textContent = user.role || "";
+  if (user.name) {
+    document.querySelector(".profile-avatar").textContent =
+      user.name.trim().charAt(0).toUpperCase();
+  }
+});
 
 currentUserPromise.then((user) => {
   if (user) {
@@ -258,11 +263,20 @@ logoutBtn?.addEventListener(
 
     event.preventDefault();
 
+    const finishLogout = () => {
+      localStorage.removeItem("edunexUser");
+      window.location.assign("auth.html#login");
+    };
+
+    if (!localBackend) {
+      finishLogout();
+      return;
+    }
+
     fetch("/api/auth/logout", { method: "POST" })
       .then((response) => {
         if (!response.ok) throw new Error("Неуспешен изход от акаунта.");
-        localStorage.removeItem("edunexUser");
-        window.location.assign("auth.html#login");
+        finishLogout();
       })
       .catch((error) => alert(error.message));
 
