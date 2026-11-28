@@ -373,3 +373,13 @@ document
     alert(JSON.stringify(currentUser));
 
   });
+const connectMicrosoftBtn =
+  document.getElementById(
+    "connect-microsoft-btn"
+  );
+
+alert(
+  connectMicrosoftBtn
+    ? "Button found"
+    : "Button NOT found"
+);
