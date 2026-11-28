@@ -342,3 +342,21 @@ document.getElementById("delete-account-btn")?.addEventListener("click", async (
     alert(error.message);
   }
 });
+
+document
+  .getElementById("connect-microsoft-btn")
+  ?.addEventListener("click", async () => {
+
+    const currentUser =
+      await currentUserPromise;
+
+    if (!currentUser) {
+      return;
+    }
+
+    window.location.href =
+      `${apiBase}/auth/microsoft/login?email=${encodeURIComponent(
+        currentUser.microsoftEmail
+      )}`;
+
+  });
