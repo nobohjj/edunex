@@ -360,3 +360,16 @@ document
       )}`;
 
   });
+
+document
+  .getElementById("connect-microsoft-btn")
+  ?.addEventListener("click", async () => {
+
+    const currentUser =
+      await currentUserPromise;
+
+    console.log(currentUser);
+
+    alert(JSON.stringify(currentUser));
+
+  });
